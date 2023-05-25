@@ -1,0 +1,51 @@
+{% extends "./base.html" %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href='{% static "css_register/style.css" %}'>
+	<!-- LINEARICONS -->
+	<link rel="stylesheet" href='{% static "fonts_register/linearicons/style.css" %}'>
+		
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href='{% static "css_register/style.css" %}'>
+    <link rel="stylesheet" href='{% static "assets/css/bootstrap.min.css" %}'>
+    <link rel="stylesheet" href='{% static "assets/css/LineIcons.3.0.css" %}'>
+    <link rel="stylesheet" href='{% static "assets/css/tiny-slider.css" %}'>
+    <link rel="stylesheet" href='{% static "assets/css/glightbox.min.css" %}'>
+    <link rel="stylesheet" href='{% static "assets/css/main.css" %}'>
+</head>
+		<div class="wrapper">
+			<div class="inner">
+				<img src="images/image-1.png" alt="" class="image-1">
+				<form action="">
+					<h3>Iniciar Sesion</h3>
+                    <span class="lnr lnr-user"></span>
+					<div class="form-holder">
+
+						<input type="text" class="form-control" placeholder="Usuario">
+					</div>
+                    <span class="lnr lnr-lock"></span>
+					<div class="form-holder">
+
+						<input type="password" class="form-control" placeholder="Password">
+					</div>
+                    <span class="lnr lnr-lock"></span>
+					<div class="form-holder">
+
+						<input type="password" class="form-control" placeholder="Confirm Password">
+					</div>
+					<button>
+						<span>Iniciar Sesion</span>
+					</button>
+				</form>
+				<img src="images/image-2.png" alt="" class="image-2">
+			</div>
+			
+		</div>
+		
+		<script src='{% static "js_register/jquery-3.3.1.min.js" %}'></script>
+		<script src='{% static "js_register/main.js" %}'></script>
+
+{% endblock %}
