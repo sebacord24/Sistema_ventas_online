@@ -72,15 +72,25 @@
                         <div class="top-end">
                             <div class="user">
                                 <i class="lni lni-user"></i>
-                                Hello
+                                {{ user.username }}
                             </div>
                             <ul class="user-login">
-                                <li>
-                                    <a href="login">Iniciar sesíon</a>
-                                </li>
-                                <li>
-                                    <a href="register">Registrarse</a>
-                                </li>
+                                {% if user.is_authenticated %}
+                                    <li>
+                                        <a href="logout">Cerrar sesíon</a>
+                                    </li>
+
+                                {% else %}
+                                    <li>
+                                        <a href="login">Iniciar sesíon</a>
+                                    </li>
+                                    <li>
+                                        <a href="register">Registrarse</a>
+                                    </li>
+
+                                {% endif %}
+
+
                             </ul>
                         </div>
                     </div>

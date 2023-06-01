@@ -14,20 +14,27 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
+                {% for l in libros %}
                 <div class="col-lg-3 col-md-6 col-12">
+
                     <!-- Start Single Product -->
                     <div class="single-product">
+
                         <div class="product-image">
-                            <img src="../../static/img/de-sangre-y-cenizas.jpg" alt="#">
+                            {% if l.imagen %}
+                            <img src="../../static/img/de-sangre-y-cenizas.jpg" alt="#">  <!-- {{ l.imagen.url }} -->
+                            {% endif %}
                             <div class="button">
                                 <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Añadir Al Carro</a>
                             </div>
                         </div>
+
                         <div class="product-info">
-                            <span class="category">Romance</span>
+                            <span class="category"> {{ l.categoria }} </span>
                             <h4 class="title">
-                                <a href="product-grids.html">De Sangre Y Cenizas</a>
+                                <a href="product-grids.html">{{ l.nombre_libro }}</a>
                             </h4>
                             <ul class="review">
                                 <li><i class="lni lni-star-filled"></i></li>
@@ -38,221 +45,17 @@
                                 <li><span>4.0 Review(s)</span></li>
                             </ul>
                             <div class="price">
-                                <span>$ 30.000</span>
+                                <span>$ {{ l.precio }} </span>
                             </div>
                         </div>
+
                     </div>
                     <!-- End Single Product -->
+
                 </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-                        <div class="product-image">
-                            <img src="../../static/img/rkanus-la-profecia-del-heroe-caido.jpg" alt="#">
-                            <span class="sale-tag">-25%</span>
-                            <div class="button">
-                                <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Añadir Al Carro</a>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <span class="category">Fantasia</span>
-                            <h4 class="title">
-                                <a href="product-grids.html">La Profecia Del Heroe Caido</a>
-                            </h4>
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><span>5.0 Review(s)</span></li>
-                            </ul>
-                            <div class="price">
-                                <span>$ 7.500</span>
-                                <span class="discount-price">$ 10.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-                        <div class="product-image">
-                            <img src="../../static/img/star-wars-enciclopedia-de-personajes-e1655158646421.jpg" alt="#">
-                            <div class="button">
-                                <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Añadir Al Carro</a>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <span class="category">Enciclopedia</span>
-                            <h4 class="title">
-                                <a href="product-grids.html">Enciclopedia De Personajes, Star Wars</a>
-                            </h4>
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><span>5.0 Review(s)</span></li>
-                            </ul>
-                            <div class="price">
-                                <span>$ 40.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-                        <div class="product-image">
-                            <img src="../../static/img/regreso_ketzel.jpg" alt="#">
-                            <span class="new-tag">New</span>
-                            <div class="button">
-                                <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Añadir Al Carro</a>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <span class="category">Fantasia</span>
-                            <h4 class="title">
-                                <a href="product-grids.html">El Regreso De Ketzel</a>
-                            </h4>
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><span>5.0 Review(s)</span></li>
-                            </ul>
-                            <div class="price">
-                                <span>$ 15.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-                        <div class="product-image">
-                            <img src="../../static/img/arkanus.jpg" alt="#">
-                            <div class="button">
-                                <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Añadir Al Carro</a>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <span class="category">Fantasia</span>
-                            <h4 class="title">
-                                <a href="product">Arkanus El Señor Del Abismo</a>
-                            </h4>
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><span>5.0 Review(s)</span></li>
-                            </ul>
-                            <div class="price">
-                                <span>$ 12.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-                        <div class="product-image">
-                            <img src="../../static/img/heartstopper.jpg" alt="#">
-                            <div class="button">
-                                <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Añadir Al Carro</a>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <span class="category">Romance</span>
-                            <h4 class="title">
-                                <a href="product-grids.html">Heartstopper</a>
-                            </h4>
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-                            <div class="price">
-                                <span>$ 11.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-                        <div class="product-image">
-                            <img src="../../static/img/entiende-tu-mente.jpg" alt="#">
-                            <span class="sale-tag">-50%</span>
-                            <div class="button">
-                                <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Añadir Al Carro</a>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <span class="category">Crecimiento Personal</span>
-                            <h4 class="title">
-                                <a href="product-grids.html">Entiende Tu Mente</a>
-                            </h4>
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-                            <div class="price">
-                                <span>$ 6.750</span>
-                                <span class="discount-price">$ 13.500</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-                        <div class="product-image">
-                            <img src="../../static/img/https___s3-us-west-2.amazonaws.com_im-prod-products-images_45d3cc76-981e-4ceb-8144-23886b986877-957112-mlc44756853945_012021-o.webp" alt="#">
-                            <div class="button">
-                                <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Añadir Al Carro</a>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <span class="category">Enciclopedia</span>
-                            <h4 class="title">
-                                <a href="product-grids.html">El Gran Libro De La Galaxia, Star Wars</a>
-                            </h4>
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><span>5.0 Review(s)</span></li>
-                            </ul>
-                            <div class="price">
-                                <span>$ 34.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-                </div>
+                {% endfor %} 
             </div>
+
         </div>
     </section>
     <!-- End Trending Product Area -->
