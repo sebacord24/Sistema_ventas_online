@@ -76,18 +76,21 @@
                             </div>
                             <ul class="user-login">
                                 {% if user.is_authenticated %}
-                                    <li>
-                                        <a href="logout">Cerrar sesíon</a>
-                                    </li>
+                                <a href="">
+                                    <div class="enlace">
+                                        <i class='bx bx-exit bx-rotate-180'></i>
+                                        <span>Cerrar Sesion</span>
+                                    </div>
+                                </a>
+
 
                                 {% else %}
                                     <li>
-                                        <a href="login">Iniciar sesíon</a>
+                                        <a href="/login/">Iniciar sesíon</a>
                                     </li>
-                                    <li>
-                                        <a href="register">Registrarse</a>
-                                    </li>
-
+<li>
+    <a href="/clientes_form/">Registrarse</a>
+</li>
                                 {% endif %}
 
 
@@ -112,28 +115,9 @@
                     <div class="col-lg-5 col-md-7 d-xs-none">
                         <!-- Start Main Menu Search -->
                         <div class="main-menu-search">
-                            <!-- navbar search start -->
                             <div class="navbar-search search-style-5">
-                                <div class="search-select">
-                                    <div class="select-position">
-                                        <select id="select1">
-                                            <option selected>Todos</option>
-                                            <option value="1">option 01</option>
-                                            <option value="2">option 02</option>
-                                            <option value="3">option 03</option>
-                                            <option value="4">option 04</option>
-                                            <option value="5">option 05</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="search-input">
-                                    <input type="text" placeholder="Buscar">
-                                </div>
-                                <div class="search-btn">
-                                    <button><i class="lni lni-search-alt"></i></button>
-                                </div>
+
                             </div>
-                            <!-- navbar search Ends -->
                         </div>
                         <!-- End Main Menu Search -->
                     </div>
@@ -337,7 +321,6 @@
                                             data-bs-target="#submenu-1-2" aria-controls="navbarSupportedContent"
                                             aria-expanded="false" aria-label="Toggle navigation">Servicios</a>
                                         <ul class="sub-menu collapse" id="submenu-1-2">
-                                            <li class="nav-item"><a href="reparacion">Reparación</a></li>
                                             <li class="nav-item"><a href="mantencion">Mantención</a></li>
                                         </ul>
                                     </li>

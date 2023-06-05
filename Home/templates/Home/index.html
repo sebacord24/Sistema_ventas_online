@@ -1,40 +1,68 @@
 {% extends "./base.html" %}
 
 {% block title %}Home{% endblock %}
+
 {% block content %}
-    <!-- Start Trending Product Area -->
-    <section class="trending-product section" style="margin-top: 12px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-title">
-                        <h2>Nuevos Productos </h2>
-                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have
-                            suffered alteration in some form.</p>
-                    </div>
+<!-- ... Código HTML existente ... -->
+
+<section class="trending-product section" style="margin-top: 12px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <h2>Nuevos Productos</h2>
+                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.</p>
                 </div>
             </div>
-
-            <div class="row">
-                {% for l in libros %}
+        </div>
+        <!-- Start Trending Product Area -->
+        <div class="col-lg-5 col-md-7 d-xs-none">
+            <!-- Start Main Menu Search -->
+            <div class="main-menu-search">
+                <div class="navbar-search search-style-5">
+                    <form method="GET" action="/filtro_libros_nombre/">
+                        <input type="text" name="busqueda" placeholder="Buscar libros por nombre">
+                        <button type="submit">Buscar</button>
+                    </form>
+                </div>
+            </div>
+            {% if buscar %}
+                <h2>Resultados de la búsqueda:</h2>
+                <ul>
+                    {% for libro in buscar %}
+                        <li>{{ libro.nombre }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No se encontraron resultados.</p>
+            {% endif %}
+            <!-- End Main Menu Search -->
+        </div>
+        <div class="row">
+            {% for l in libros %}
                 <div class="col-lg-3 col-md-6 col-12">
-
-                    <!-- Start Single Product -->
+                    <!-- Start Single Product, index.html -->
                     <div class="single-product">
-
                         <div class="product-image">
                             {% if l.imagen %}
-                            <img src="../../static/img/de-sangre-y-cenizas.jpg" alt="#">  <!-- {{ l.imagen.url }} -->
+                                <img src="data:imagen/jpg;base64, {{ l.imagen }}" alt="#">
+                            {% else %}
+                                <img src="../../static/img/imagen_no_disponible.png" alt="#">
                             {% endif %}
                             <div class="button">
-                                <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Añadir Al Carro</a>
+                                <form action="/agregar_al_carrito/" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="producto_id" value="{{ l.id }}">
+                                    <button class="add-to-cart-btn btn btn-primary" type="submit">
+                                        <i class="lni lni-cart"></i> Añadir al carrito
+                                    </button>
+                                </form>
                             </div>
                         </div>
-
                         <div class="product-info">
-                            <span class="category"> {{ l.categoria }} </span>
+                            <span class="category">{{ l.data.4 }}</span>
                             <h4 class="title">
-                                <a href="product-grids.html">{{ l.nombre_libro }}</a>
+                                <a href="product-grids.html">{{ l.data.1 }}</a>
                             </h4>
                             <ul class="review">
                                 <li><i class="lni lni-star-filled"></i></li>
@@ -45,19 +73,24 @@
                                 <li><span>4.0 Review(s)</span></li>
                             </ul>
                             <div class="price">
-                                <span>$ {{ l.precio }} </span>
+                                <span>$ {{ l.data.3 }}</span>
                             </div>
                         </div>
-
                     </div>
                     <!-- End Single Product -->
-
                 </div>
-                {% endfor %} 
-            </div>
-
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
+
+
+
+<!-- ... Código HTML existente ... -->
+
+<!-- End Trending Product Area -->
+
+
     <!-- End Trending Product Area -->
     <!-- Start Call Action Area -->
     <section class="call-action section">
@@ -256,7 +289,7 @@
                         <div class="col-lg-4 col-12">
                             <div class="copyright">
                                 <p>Diseñado y Desarrollado Por<a href="https://graygrids.com/" rel="nofollow"
-                                        target="_blank">TU MAMITA</a></p>
+                                        target="_blank"></a></p>
                             </div>
                         </div>
                         <div class="col-lg-4 col-12">
@@ -275,6 +308,30 @@
             </div>
         </div>
         <!-- End Footer Bottom -->
+        
     </footer>
     <!--/ End Footer Area -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+        
+        addToCartBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var productoId = this.getAttribute('data-producto-id');
+                
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'agregar_al_carrito'.replace('0', productoId));
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                    console.log('Producto agregado al carrito');
+                    // Actualizar el número de elementos en el carrito si es necesario
+                    var itemsCount = document.querySelector('.dropdown-cart-header span');
+                    var itemCount = parseInt(itemsCount.textContent);
+                    itemsCount.textContent = itemCount + 1;
+                };
+                xhr.send();
+            });
+        });
+    </script>
+    
 {% endblock %}

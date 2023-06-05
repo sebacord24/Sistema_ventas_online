@@ -30,7 +30,8 @@ ALLOWED_HOSTS = []
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-LOGIN_REDIRECT_URL = 'account/'
+
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 
@@ -85,8 +86,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': 'localhost:1521/xe',
-        'USER': 'libreria2',
-        'PASSWORD': 'libreria2',
+        'USER': 'LIBRERIA',
+        'PASSWORD': 'LIBRERIA',
         'TEST': {
             'USER': 'default_test',
             'TBLSPACE': 'default_test_tbls',
@@ -137,3 +138,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'Home/static')),
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+APPEND_SLASH = False

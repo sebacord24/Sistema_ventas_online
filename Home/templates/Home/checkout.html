@@ -1,0 +1,35 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="{% url 'checkout' %}" class="mt-4">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tarjeta" class="form-label">Tarjeta de crédito:</label>
+                    <input type="text" id="tarjeta" name="tarjeta" class="form-control" required>
+                </div>
+
+                <!-- Otros campos del formulario -->
+
+                <button type="submit" class="btn btn-primary">Realizar pago</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

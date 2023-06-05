@@ -64,37 +64,21 @@ $(document).ready(function(){
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>ID</th>
-						<th>Nombre</th>
-						<th>Descripción</th>
-						<th>Precio</th>
-						<th>Imagen</th>
-						<th>Categoria</th>
-						<th>Inventario</th>
-						<th>Descuento</th>
-						<th>accion</th>
+						<th>ID Mantencion</th>
+						<th>Fecha Mantención</th>
 
 					</tr>
 				</thead>
-				{% for x in producto %}
 				<tbody>
-
+					{% for m in mantencion %}
 					<tr>
-						<td>{{x.id}}</td>
-						<td>{{ x.nombre }}</td>
-						<td >{{x.desc}}</td>
-						<td>${{x.precio}}</td>
-						<td><a href="#verimagen" class="btn btn-success" data-toggle="modal"> <span>Ver</span></a></td>
-						<td>{{x.categoria.nombre}}</td>
-						<td>{{x.inventorio.cantidad}}</td>
-						<td>{{x.descuento.porcentaje}}</td>
-						<td>
-							<a href="{% url 'modificarProducto' x.id  %}" class="edit" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a onclick="eliminar({{x.id}})" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-						</td>
+						<td>{{ m.0 }}</td>
+						<td>{{ m.1 }}</td>
+
 					</tr>
+					{% endfor %}
 				</tbody>
-				{% endfor %}
+				
 
 				<script>
                     function eliminar(id){
@@ -124,69 +108,21 @@ $(document).ready(function(){
 		</div>
 	</div>        
 </div>
-<!-- agregar -->
-<div id="añadirtorta" class="modal fade">
+  <!-- agregar -->
+  <div id="añadirtorta" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form name="formulario-agregar" class="formulario-agregar form" id="formulario-agregar" method="POST" enctype="multipart/form-data">
+			<form name="registrar_mantencion" class="formulario-agregar form" id="formulario-agregar" method="POST" enctype="multipart/form-data" action="agregar_mantenimiento">
 				{% csrf_token %}
-				<div class="modal-header">						
-					<h4 class="modal-title">Añadir mantencion</h4>
+				<div class="modal-header">                        
+					<h4 class="modal-title">Añadir mantención</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<div class="modal-body">					
-					<div class="form-group">
-						<label>Nombre</label>
-						<input type="text" name="txtNombre" class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label>Descripción</label>
-						<textarea class="form-control" name="txtDesc" required></textarea>
-					</div>
-					<div class="form-group">
-						<label>Precio</label>
-						<input type="text" name="txtPrecio" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57 )" required>
-					</div>
-					
-					<div class="form-group">
-						<label>Imagen</label>
-						<input type="file" id="txtImagen" name="txtImagen" accept=".png, .jpg, .jpeg" class="form-control" required>
-					</div>
-					<div class="form-group">
-                        <label>Categoria</label>
-						<select id="cboCategoria" name="cboCategoria" class="form-control">
-					
-							<option value="0">Seleccione</option>
-							{% for x in categoria %}
-							<option value="{{ x.id }}">{{ x.nombre }}</option>
-							{% endfor %}
-
-						</select>
-						
-					</div> 	
-					<div class="form-group">
-						<label>Inventario</label>
-						<select id="cboInventorio" name="cboInventorio" class="form-control">
-					
-							<option value="0">Seleccione</option>
-							{% for x in inventorio %}
-							<option value="{{ x.id }}">{{ x.cantidad }}</option>
-							{% endfor %}
-
-						</select>
-
-					</div>	
-					<div class="form-group">
-						<label>Descuento</label>
-						<select id="cboDescuento" name="cboDescuento" class="form-control">
-							<option value="0">Seleccione</option>
-							{% for x in descuento %}
-							<option value="{{ x.id }}">{{ x.nombre }}</option>
-							{% endfor %}
-						</select>
-					</div>						
+				<div class="modal-body">                    
+					{% csrf_token %}
+					<input type="number" name="id_mantencion" placeholder="ID Mantención" required>
+					<input type="date" name="fec_mantencion" placeholder="Fecha Mantención" required>
 				</div>
-				
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 					<input type="submit" class="btn btn-success" value="Añadir">
@@ -195,6 +131,11 @@ $(document).ready(function(){
 		</div>
 	</div>
 </div>
+
+{% if mensaje %}
+    <div>{{ mensaje }}</div>
+{% endif %}
+
 <!-- Editar -->
 <div id="editartorta" class="modal fade">
 	<div class="modal-dialog">
