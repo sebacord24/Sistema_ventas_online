@@ -21,6 +21,10 @@ def Login(request):
 def admin(request):
     return render(request, 'Home/admin.html')
 
+def clientes_form(request):
+    return render(request, 'Home/clientes_form.html')
+
+
 
 def product(request):
     return render(request, 'Home/product.html')
@@ -203,6 +207,7 @@ def checkout_view(request):
 
 
 
+
 def agregar_cliente(request):
     if request.method == 'POST':
         # Obtener los datos del formulario
@@ -217,52 +222,52 @@ def agregar_cliente(request):
         celular = request.POST['celular']
         password = request.POST['password']
 
-        # Conectar a la base de datos Oracle
+        # Conectar a la base de datos Oracle y ejecutar el procedimiento almacenado
         with connection.cursor() as cursor:
             try:
                 # Llamar al procedimiento almacenado
+                resultado = cursor.var(int)
                 cursor.callproc('sp_agregar_cliente', [
                     direccion, rut, pr_nombre, seg_nombre,
-                    ap_paterno, ap_materno, email, fec_nac, celular, password
+                    ap_paterno, ap_materno, email, fec_nac, celular, password, resultado
                 ])
-                messages.success(request, 'Cliente agregado exitosamente.')
-            except Exception as e:
-                error_message = str(e)
-                if 'ORA-20001' in error_message:
+                resultado = resultado.getvalue()
+
+                if resultado == 1:
+                    messages.success(request, 'Cliente agregado exitosamente.')
+                elif resultado == 0:
                     messages.error(request, 'El rut ya está registrado.')
                 else:
                     messages.error(request, 'Error al agregar el cliente. Por favor, inténtalo nuevamente.')
+                    print(str(e))
+            except Exception as e:
+                messages.error(request, 'Error al agregar el cliente. Por favor, inténtalo nuevamente.')
+                print(str(e))
 
         # Redirigir a una página de éxito o mostrar un mensaje de éxito
-        return redirect('clientes_form')
+        return redirect('agregar_cliente')
 
     # Renderizar el formulario de creación de cliente
     return render(request, 'Home/clientes_form.html')
+
+
+
 
 def autenticar_usuario(request):
     if request.method == 'POST':
         rut = request.POST.get('rut')
         password = request.POST.get('password')
-        
-        with connection.cursor() as cursor:
-            try:
-                resultado = cursor.var(int)
-                cursor.callproc('autenticar_usuario', [rut, password, resultado])
-                resultado = resultado.getvalue()
-                
-                if resultado == 1:
-                    # Autenticación exitosa
-                    messages.success(request, 'Inicio de sesión exitoso.')
-                    return redirect('dashboard')
-                elif resultado == 0:
-                    # Autenticación fallida
-                    messages.error(request, 'Credenciales inválidas. Inténtalo nuevamente.')
-                else:
-                    # Error en el procedimiento almacenado
-                    messages.error(request, 'Error al autenticar el usuario. Por favor, inténtalo nuevamente.')
-            except Exception as e:
-                messages.error(request, 'Error al autenticar el usuario. Por favor, inténtalo nuevamente.')
-                print(str(e))
-    
-    return render(request, 'Home/login.html')
 
+        # Realiza la verificación de autenticación aquí
+        # Puedes utilizar tu propia lógica para verificar las credenciales en la base de datos
+
+        # Ejemplo ficticio de verificación de autenticación
+        if rut == 'usuario' and password == 'contraseña':
+            # Autenticación exitosa
+            messages.success(request, 'Inicio de sesión exitoso.')
+            return redirect('dashboard')
+        else:
+            # Autenticación fallida
+            messages.error(request, 'Credenciales inválidas. Inténtalo nuevamente.')
+
+    return render(request, 'Home/autenticar_usuario.html')

@@ -4,32 +4,54 @@
 {% block title %}Checkout{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form method="post" action="{% url 'checkout' %}" class="mt-4">
-                {% csrf_token %}
 
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" class="form-control" required>
-                </div>
 
-                <div class="mb-3">
-                    <label for="direccion" class="form-label">Dirección:</label>
-                    <input type="text" id="direccion" name="direccion" class="form-control" required>
-                </div>
 
-                <div class="mb-3">
-                    <label for="tarjeta" class="form-label">Tarjeta de crédito:</label>
-                    <input type="text" id="tarjeta" name="tarjeta" class="form-control" required>
-                </div>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/174861.png" type="image/x-icon">
+    <title>Pago con Paypal</title>
 
-                <!-- Otros campos del formulario -->
 
-                <button type="submit" class="btn btn-primary">Realizar pago</button>
-            </form>
-        </div>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AdinLNm6NN_paNvNYnUEeBmZzS8uh_4e3gycHD_nBe4xLlc4rH6DPdB2a_PKg5DUeFfhOoko0wX5oHsr&currency=USD"></script>
+
+
+
+    <div style="align-items: center; position: relative;">
+        <h1 style="font-family: serif; padding-left: 12%; color: rgb(132, 187, 135);">¡Gracias por preferirnos!</h1>
+
     </div>
-</div>
+
+    <div id="paypal-button-container">
+    </div>
+
+    <script>
+        paypal.Buttons({
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: 100
+                        }
+                    }]
+                });
+            },
+
+            onApprove: function (data, actions) {
+                actions.order.capture().then(function (details) {
+                    alert("Pago realizado");
+                    console.log(details);
+                })
+            },
+
+            oncancel: function (data) {
+                alert("Pago cancelado");
+                console.log(data);
+            }
+
+        }).render('#paypal-button-container');
+    </script>
+
 {% endblock %}

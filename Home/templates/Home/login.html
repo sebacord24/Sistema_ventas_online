@@ -1,20 +1,18 @@
-
 {% extends "./base.html" %}
 {% load static %}
 
 {% block content %}
-<form method="POST" action="autenticar_usuario">
-
-
+  <h2>Iniciar sesión</h2>
+  <form method="POST" action="autenticar_usuario">
     {% csrf_token %}
     <div class="form-group">
-        <label for="rut">RUT:</label>
-        <input type="text" name="rut" id="rut" required>
+      <label for="rut">RUT:</label>
+      <input type="text" name="rut" id="rut" required>
     </div>
     <div class="form-group">
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" required>
+      <label for="password">Contraseña:</label>
+      <input type="password" name="password" id="password" required>
     </div>
     <button type="submit">Iniciar sesión</button>
-</form>
+  </form>
 {% endblock %}
