@@ -69,32 +69,23 @@ def listado_libros_busqueda_nombre(busqueda):
     with connection.cursor() as cursor:
         cursor.callproc("listarlibros_busqueda_nombre", [busqueda])
         rows = cursor.fetchall()
-        lista = [row[0] for row in rows]  # Modifica esto según la estructura de tus datos
+        lista = [row[1] for row in rows] 
     return lista
 
 def listado_libros_busqueda_categoria(busqueda):
     with connection.cursor() as cursor:
         cursor.callproc("listarlibros_busqueda_categoria", [busqueda])
         rows = cursor.fetchall()
-        lista = [row[0] for row in rows]  # Modifica esto según la estructura de tus datos
+        lista = [row[6] for row in rows] 
     return lista
 
 def filtro_libros_nombre(request):
-    busqueda = request.GET.get('busqueda', '')  # Obtener el término de búsqueda ingresado
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
-
-    cursor.callproc("listarlibros_busqueda_nombre", [out_cur, busqueda])
-
-    libros = []
-    for fila in out_cur:
-        libros.append(fila)
-
-    return render(request, 'Home/index.html', {'buscar': libros})
+    busqueda = request.GET.get('busqueda', '') 
+    libros = listado_libros_busqueda_nombre(busqueda)
+    return render(request, 'Home/index.html', {'libros': libros})
 
 def filtro_libros_categoria(request):
-    busqueda = "tipo_libro"  # Aquí puedes establecer el valor de búsqueda que necesites
+    busqueda = "TIPO_LIBRO"  
     lista = listado_libros_busqueda_categoria(busqueda)
     return render(request, 'lista_libros.html', {'libros': lista})
 
@@ -226,30 +217,18 @@ def agregar_cliente(request):
         with connection.cursor() as cursor:
             try:
                 # Llamar al procedimiento almacenado
-                resultado = cursor.var(int)
                 cursor.callproc('sp_agregar_cliente', [
                     direccion, rut, pr_nombre, seg_nombre,
-                    ap_paterno, ap_materno, email, fec_nac, celular, password, resultado
+                    ap_paterno, ap_materno, email, fec_nac, celular, password
                 ])
-                resultado = resultado.getvalue()
-
-                if resultado == 1:
-                    messages.success(request, 'Cliente agregado exitosamente.')
-                elif resultado == 0:
-                    messages.error(request, 'El rut ya está registrado.')
-                else:
-                    messages.error(request, 'Error al agregar el cliente. Por favor, inténtalo nuevamente.')
-                    print(str(e))
+                messages.success(request, 'Cliente agregado exitosamente.')
+                return redirect('agregar_cliente')
             except Exception as e:
                 messages.error(request, 'Error al agregar el cliente. Por favor, inténtalo nuevamente.')
                 print(str(e))
 
-        # Redirigir a una página de éxito o mostrar un mensaje de éxito
-        return redirect('agregar_cliente')
-
     # Renderizar el formulario de creación de cliente
     return render(request, 'Home/clientes_form.html')
-
 
 
 
