@@ -4,6 +4,7 @@ from django.contrib import messages
 import base64
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from .models import *
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 
@@ -237,16 +238,36 @@ def autenticar_usuario(request):
         rut = request.POST.get('rut')
         password = request.POST.get('password')
 
-        # Realiza la verificación de autenticación aquí
-        # Puedes utilizar tu propia lógica para verificar las credenciales en la base de datos
+        # Realiza la verificación de autenticación utilizando el procedimiento almacenado
+        resultado = None
+        
+        django_cursor = connection.cursor()
+        cursor = django_cursor.connection.cursor()
+        out_val = cursor.var(int)
 
-        # Ejemplo ficticio de verificación de autenticación
-        if rut == 'usuario' and password == 'contraseña':
+    
+        with connection.cursor() as cursor:
+            out_val = cursor.var(int)
+            # Ejecutar el procedimiento almacenado y obtener el resultado
+            resultado = cursor.var(str)
+            print(rut)
+            print(password)
+            res=0
+            cursor.callproc("autenticar_usuario", ['', '', resultado])
+            print(resultado)
+        resultado_value = resultado.outvar
+
+        if resultado_value == '1':
             # Autenticación exitosa
+            user = authenticate(request, username=rut, password=password)
+            login(request, user)
             messages.success(request, 'Inicio de sesión exitoso.')
-            return redirect('dashboard')
-        else:
-            # Autenticación fallida
-            messages.error(request, 'Credenciales inválidas. Inténtalo nuevamente.')
+            return redirect('home')
+        elif resultado_value == 0:
+            # Rut no registrado
+            messages.error(request, 'El rut no está registrado. Regístrate antes de iniciar sesión.')
+        elif resultado_value == -1:
+            # Error en el procedimiento
+            messages.error(request, 'Error al autenticar el usuario. Por favor, inténtalo nuevamente.')
 
-    return render(request, 'Home/autenticar_usuario.html')
+    return render(request, 'Home/autentificar.html')
