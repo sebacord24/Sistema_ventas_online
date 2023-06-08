@@ -2,8 +2,15 @@
 {% load static %}
 
 {% block content %}
+
+<link rel="stylesheet" href='{% static "css_register/style.css" %}'>
+<div class="wrapper">
+    <div class="inner">
+        <img src="images/image-1.png" alt="" class="image-1">
+
   <h2>Iniciar sesión</h2>
-  <form method="POST" action="autenticar_usuario">
+  <form method="POST" action="{% url 'autenticar_usuario' %}">
+
     {% csrf_token %}
     <div class="form-group">
       <label for="rut">RUT:</label>
@@ -16,3 +23,5 @@
     <button type="submit">Iniciar sesión</button>
   </form>
 {% endblock %}
+
+

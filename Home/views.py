@@ -244,36 +244,33 @@ def autenticar_usuario(request):
         rut = request.POST.get('rut')
         password = request.POST.get('password')
 
-        # Realiza la verificación de autenticación utilizando el procedimiento almacenado
-        resultado = None
+        try:
+            django_cursor = connection.cursor()
+            cursor = django_cursor.connection.cursor()
+
+            with connection.cursor() as cursor:
+                # Ejecutar el procedimiento almacenado
+                resultado = cursor.var(str)
+                cursor.callproc('autenticar_usuario', [rut, password, resultado])
+
+                # Obtener el resultado del procedimiento almacenado
+                resultado = resultado.getvalue()
+
+                if resultado == '1':
+                    # Autenticación exitosa
+                    user = authenticate(request, username=rut, password=password)
+                    login(request, user)
+                    messages.success(request, 'Inicio de sesión exitoso.')
+                    return redirect('home')
+                elif resultado == '0':
+                    # Rut no registrado
+                    messages.error(request, 'El rut no está registrado. Regístrate antes de iniciar sesión.')
+                elif resultado == '-1':
+                    # Error en el procedimiento
+                    messages.error(request, 'Error al autenticar el usuario. Por favor, inténtalo nuevamente.')
         
-        django_cursor = connection.cursor()
-        cursor = django_cursor.connection.cursor()
-        out_val = cursor.var(int)
-
-    
-        with connection.cursor() as cursor:
-            out_val = cursor.var(int)
-            # Ejecutar el procedimiento almacenado y obtener el resultado
-            resultado = cursor.var(str)
-            print(rut)
-            print(password)
-            res=0
-            cursor.callproc("autenticar_usuario", ['', '', resultado])
-            print(resultado)
-        resultado_value = resultado.outvar
-
-        if resultado_value == '1':
-            # Autenticación exitosa
-            user = authenticate(request, username=rut, password=password)
-            login(request, user)
-            messages.success(request, 'Inicio de sesión exitoso.')
-            return redirect('home')
-        elif resultado_value == 0:
-            # Rut no registrado
-            messages.error(request, 'El rut no está registrado. Regístrate antes de iniciar sesión.')
-        elif resultado_value == -1:
-            # Error en el procedimiento
+        except Exception as e:
+            # Error en el procedimiento almacenado
             messages.error(request, 'Error al autenticar el usuario. Por favor, inténtalo nuevamente.')
 
-    return render(request, 'Home/autentificar.html')
+    return render(request, 'Home/login.html')
