@@ -103,11 +103,22 @@ def agregar_mantenimiento(request):
             # Ejecutar el procedimiento almacenado
             cursor.callproc('AGREGAR_MANTENIMIENTO', [id_mantencion, fec_mantencion])
 
-    # Llamar a la función ListarMante para obtener la lista actualizada
-    return ListarMante(request)
+    # Redirigir a la vista ListarMante para obtener la lista actualizada de mantenciones
+    return redirect('/mantencion/')
 
-def ListarMante(request):
+def listar_mantenciones(request):
     # Obtener la lista de mantenciones
+    lista = obtener_lista_mantenciones()
+
+    # Pasar la lista como contexto a la plantilla
+    data = {
+        'mantencion': lista
+    }
+    
+    return render(request, 'Home/mantencion.html', data)
+
+def obtener_lista_mantenciones():
+    # Obtener la lista de mantenciones desde la base de datos
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -118,12 +129,7 @@ def ListarMante(request):
     for fila in out_cur:
         lista.append(fila)
 
-    # Pasar la lista como contexto a la plantilla
-    data = {
-        'mantencion': lista
-    }
-    
-    return render(request, 'Home/mantencion.html', data)
+    return lista
 
 
 
